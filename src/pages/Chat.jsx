@@ -3,10 +3,11 @@ import { Send, Menu, Settings, AlertCircle } from 'lucide-react'
 import MessageBubble from '../components/MessageBubble'
 import SettingsPanel from '../components/SettingsPanel'
 
-const MODEL_MAP = {
-  'GPT-4': 'gpt-4',
-  'GPT-3.5': 'gpt-3.5-turbo',
-  'GPT-4o': 'gpt-4o',
+const GROQ_MODELS = {
+  'Llama 3.3 70B': 'llama-3.3-70b-versatile',
+  'Llama 3.1 8B': 'llama-3.1-8b-instant',
+  'Mixtral 8x7B': 'mixtral-8x7b-32768',
+  'Gemma 2 9B': 'gemma2-9b-it',
 }
 
 function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggleSidebar }) {
@@ -15,7 +16,7 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
   const [isTyping, setIsTyping] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [error, setError] = useState(null)
-  const [settings, setSettings] = useState({ temperature: 0.7, maxTokens: 2000 })
+  const [settings, setSettings] = useState({ temperature: 0.7, maxTokens: 2048 })
   const messagesEndRef = useRef(null)
 
   useEffect(() => { setMessages(conversation?.messages || []) }, [conversation])
@@ -25,9 +26,9 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
     e.preventDefault()
     if (!input.trim() || isTyping) return
 
-    const apiKey = localStorage.getItem('chatforge_openai_key')
+    const apiKey = localStorage.getItem('chatforge_groq_key')
     if (!apiKey) {
-      setError('No API key found. Go to Settings and add your OpenAI API key.')
+      setError('No Groq API key found. Go to Settings and add your key.')
       return
     }
 
@@ -44,15 +45,15 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
     setIsTyping(true)
 
     try {
-      const openaiModel = MODEL_MAP[model] || 'gpt-4o'
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const groqModel = GROQ_MODELS[model] || 'llama-3.3-70b-versatile'
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: openaiModel,
+          model: groqModel,
           messages: newMessages.map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content })),
           temperature: settings.temperature,
           max_tokens: settings.maxTokens,
@@ -61,7 +62,7 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
 
       if (!response.ok) {
         const err = await response.json()
-        throw new Error(err.error?.message || 'API request failed')
+        throw new Error(err.error?.message || 'Groq API request failed')
       }
 
       const data = await response.json()
@@ -94,7 +95,7 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
           </button>
           <div>
             <h1 className="text-lg font-semibold text-white">{conversation?.title || 'New Conversation'}</h1>
-            <p className="text-xs text-gray-500">{MODEL_MAP[model] || model}</p>
+            <p className="text-xs text-gray-500">{GROQ_MODELS[model] || model} · Groq</p>
           </div>
         </div>
         <button onClick={() => setShowSettings(!showSettings)} className="text-gray-400 hover:text-emerald transition p-2 rounded-lg hover:bg-gray-700/50">
@@ -106,10 +107,11 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="w-16 h-16 bg-emerald/20 rounded-full flex items-center justify-center mb-4">
-              <span className="text-3xl">🔥</span>
+              <span className="text-3xl">⚡</span>
             </div>
             <h2 className="text-2xl font-semibold text-white mb-2">ChatForge</h2>
-            <p className="text-gray-400 max-w-md mb-4">Powered by real OpenAI. Add your API key in Settings to start chatting.</p>
+            <p className="text-gray-400 max-w-md mb-2">Powered by Groq — blazing fast inference.</p>
+            <p className="text-gray-500 text-sm mb-4">Add your Groq API key in Settings to start chatting.</p>
             <a href="/chatforge/settings" className="text-emerald hover:underline text-sm">→ Go to Settings</a>
           </div>
         ) : (
@@ -156,7 +158,7 @@ function Chat({ conversation, onUpdateConversation, model, sidebarOpen, onToggle
             <Send size={20} />
           </button>
         </form>
-        <p className="text-xs text-gray-500 mt-2">Press Enter to send • Calls OpenAI API directly</p>
+        <p className="text-xs text-gray-500 mt-2">Calls Groq API directly · Ultra-fast inference ⚡</p>
       </div>
 
       {showSettings && (
