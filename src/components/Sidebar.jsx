@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, MessageSquare, Settings, BarChart3, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react'
+import { Plus, MessageSquare, Settings, BarChart3, ChevronLeft, ChevronRight, Trash2, Shield } from 'lucide-react'
 
 function Sidebar({
   conversations,
@@ -109,6 +109,13 @@ function Sidebar({
           >
             <Settings size={18} />
             <span className="text-sm">Settings</span>
+          </Link>
+          <Link
+            to="/datenschutz"
+            className="w-full flex items-center gap-2 p-3 rounded-lg hover:bg-gray-700/50 transition text-gray-300 hover:text-gray-100"
+          >
+            <Shield size={18} />
+            <span className="text-sm">Datenschutz</span>
           </Link>
         </div>
       </div>
