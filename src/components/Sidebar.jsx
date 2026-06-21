@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Plus, MessageSquare, Settings, BarChart3, ChevronLeft, ChevronRight, Trash2, Shield } from 'lucide-react'
+import React from "react"
+import { Link } from "react-router-dom"
+import { Plus, MessageSquare, Settings, BarChart3, ChevronLeft, ChevronRight, Trash2, Shield } from "lucide-react"
 
 function Sidebar({
   conversations,
@@ -18,7 +18,7 @@ function Sidebar({
       {/* Mobile Toggle */}
       <button
         onClick={onToggleSidebar}
-        className="lg:hidden fixed left-4 top-4 z-50 bg-emerald hover:bg-emerald/80 p-2 rounded-lg text-white transition"
+        className="lg:hidden fixed left-4 top-4 z-50 bg-emerald-600 hover:bg-emerald-600/90 p-2 rounded-lg text-white transition"
       >
         {sidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
       </button>
@@ -28,14 +28,14 @@ function Sidebar({
         className={`
           fixed lg:relative lg:flex w-64 bg-chat-dark border-r border-gray-700 flex-col
           transition-transform duration-300 ease-in-out h-screen
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
           lg:translate-x-0 z-40
         `}
       >
         {/* New Chat Button */}
         <button
           onClick={onNewChat}
-          className="m-4 bg-emerald hover:bg-emerald/90 text-white rounded-lg p-3 font-medium flex items-center justify-center gap-2 transition"
+          className="m-4 bg-emerald-600 hover:bg-emerald-600/90 text-white rounded-lg p-3 font-medium flex items-center justify-center gap-2 transition"
         >
           <Plus size={20} />
           New Chat
@@ -47,7 +47,7 @@ function Sidebar({
           <select
             value={model}
             onChange={(e) => onModelChange(e.target.value)}
-            className="w-full mt-1 bg-chat-bg border border-gray-600 rounded-lg p-2 text-sm text-gray-200 hover:border-emerald transition cursor-pointer"
+            className="w-full mt-1 bg-chat-bg border border-gray-600 rounded-lg p-2 text-sm text-gray-200 hover:border-emerald-500 transition cursor-pointer"
           >
             <option value="gpt-4">GPT-4</option>
             <option value="claude-3">Claude 3</option>
@@ -73,8 +73,8 @@ function Sidebar({
               className={`
                 w-full text-left p-3 rounded-lg mb-2 transition truncate text-sm
                 ${selectedConversation === conv.id
-                  ? 'bg-emerald/20 border border-emerald text-emerald'
-                  : 'hover:bg-gray-700/50 text-gray-300 hover:text-gray-100'
+                  ? "bg-emerald-600/20 border border-emerald-500 text-emerald-200"
+                  : "hover:bg-gray-700/50 text-gray-300 hover:text-gray-100"
                 }
               `}
             >
@@ -116,6 +116,13 @@ function Sidebar({
           >
             <Shield size={18} />
             <span className="text-sm">Datenschutz</span>
+          </Link>
+          <Link
+            to="/impressum"
+            className="w-full flex items-center gap-2 p-3 rounded-lg hover:bg-gray-700/50 transition text-gray-300 hover:text-gray-100"
+          >
+            <Shield size={18} />
+            <span className="text-sm">Impressum</span>
           </Link>
         </div>
       </div>
