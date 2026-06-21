@@ -5,6 +5,7 @@ import Chat from './pages/Chat'
 import Conversations from './pages/Conversations'
 import Settings from './pages/Settings'
 import UsageDashboard from './pages/UsageDashboard'
+import Datenschutz from './pages/Datenschutz'
 
 function App() {
   const [conversations, setConversations] = useState([
@@ -105,6 +106,7 @@ function App() {
         <Route path="/conversations" element={<Conversations conversations={conversations} />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/usage" element={<UsageDashboard />} />
+        <Route path="/datenschutz" element={<Datenschutz />} />
       </Routes>
     </div>
   )
