@@ -1,60 +1,61 @@
-import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Sidebar from './components/Sidebar'
-import Chat from './pages/Chat'
-import Conversations from './pages/Conversations'
-import Settings from './pages/Settings'
-import UsageDashboard from './pages/UsageDashboard'
-import Datenschutz from './pages/Datenschutz'
+import React, { useState } from "react"
+import { Routes, Route } from "react-router-dom"
+import Sidebar from "./components/Sidebar"
+import Chat from "./pages/Chat"
+import Conversations from "./pages/Conversations"
+import Settings from "./pages/Settings"
+import UsageDashboard from "./pages/UsageDashboard"
+import Datenschutz from "./pages/Datenschutz"
+import Impressum from "./pages/Impressum"
 
 function App() {
   const [conversations, setConversations] = useState([
     {
       id: 1,
-      title: 'React Component Design',
-      date: '2024-06-20',
+      title: "React Component Design",
+      date: "2024-06-20",
       messages: [
-        { id: 1, role: 'user', content: 'How do I structure a React component?', timestamp: '2:30 PM' },
-        { id: 2, role: 'ai', content: 'React components should be functional, reusable, and follow the single responsibility principle. Here are best practices:\n\n- Keep components small and focused\n- Use hooks for state management\n- Pass props for configuration\n- Memoize expensive computations\n\n```jsx\nconst MyComponent = ({ data, onUpdate }) => {\n  const [state, setState] = useState(null);\n  return <div>{state}</div>;\n};\n```', timestamp: '2:31 PM' },
+        { id: 1, role: "user", content: "How do I structure a React component?", timestamp: "2:30 PM" },
+        { id: 2, role: "ai", content: "React components should be functional, reusable, and follow the single responsibility principle. Here are best practices:\n\n- Keep components small and focused\n- Use hooks for state management\n- Pass props for configuration\n- Memoize expensive computations\n\n```jsx\nconst MyComponent = ({ data, onUpdate }) => {\n  const [state, setState] = useState(null);\n  return <div>{state}</div>;\n};\n```", timestamp: "2:31 PM" },
       ]
     },
     {
       id: 2,
-      title: 'JavaScript Async/Await',
-      date: '2024-06-19',
+      title: "JavaScript Async/Await",
+      date: "2024-06-19",
       messages: [
-        { id: 1, role: 'user', content: 'Explain async/await patterns', timestamp: '1:15 PM' },
-        { id: 2, role: 'ai', content: 'Async/await makes asynchronous code look synchronous and is easier to understand than promises.', timestamp: '1:16 PM' },
+        { id: 1, role: "user", content: "Explain async/await patterns", timestamp: "1:15 PM" },
+        { id: 2, role: "ai", content: "Async/await makes asynchronous code look synchronous and is easier to understand than promises.", timestamp: "1:16 PM" },
       ]
     },
     {
       id: 3,
-      title: 'CSS Grid Layout',
-      date: '2024-06-18',
+      title: "CSS Grid Layout",
+      date: "2024-06-18",
       messages: [
-        { id: 1, role: 'user', content: 'What is CSS Grid?', timestamp: '10:45 AM' },
+        { id: 1, role: "user", content: "What is CSS Grid?", timestamp: "10:45 AM" },
       ]
     },
     {
       id: 4,
-      title: 'API Design Patterns',
-      date: '2024-06-17',
+      title: "API Design Patterns",
+      date: "2024-06-17",
       messages: [
-        { id: 1, role: 'user', content: 'Best practices for REST API design', timestamp: '3:20 PM' },
+        { id: 1, role: "user", content: "Best practices for REST API design", timestamp: "3:20 PM" },
       ]
     }
   ])
 
   const [selectedConversation, setSelectedConversation] = useState(1)
-  const [model, setModel] = useState('gpt-4')
+  const [model, setModel] = useState("gpt-4")
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   const createNewConversation = () => {
     const newId = Math.max(...conversations.map(c => c.id), 0) + 1
     const newConversation = {
       id: newId,
-      title: 'New Conversation',
-      date: new Date().toISOString().split('T')[0],
+      title: "New Conversation",
+      date: new Date().toISOString().split("T")[0],
       messages: []
     }
     setConversations([newConversation, ...conversations])
@@ -107,6 +108,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/usage" element={<UsageDashboard />} />
         <Route path="/datenschutz" element={<Datenschutz />} />
+        <Route path="/impressum" element={<Impressum />} />
       </Routes>
     </div>
   )
